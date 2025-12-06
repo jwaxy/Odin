@@ -1232,19 +1232,21 @@ gb_internal void check_foreign_procedure(CheckerContext *ctx, Entity *e, DeclInf
 		if (is_type_proc(this_type) && is_type_proc(other_type)) {
 			if (!are_signatures_similar_enough(this_type, other_type)) {
 				error(d->proc_lit,
-				      "Redeclaration of foreign procedure '%.*s' with different type signatures\n"
-				      "\tat %s",
-				      LIT(name), token_pos_to_string(pos));
+					  "Redeclaration of foreign procedure '%.*s' with different type signatures\n"
+					  "\tat %s",
+					  LIT(name), token_pos_to_string(pos));
 			}
 		} else if (!signature_parameter_similar_enough(this_type, other_type)) {
 			error(d->proc_lit,
-			      "Foreign entity '%.*s' previously declared elsewhere with a different type\n"
-			      "\tat %s",
-			      LIT(name), token_pos_to_string(pos));
+				  "Foreign entity '%.*s' previously declared elsewhere with a different type\n"
+				  "\tat %s",
+				  LIT(name), token_pos_to_string(pos));
 		}
-	} else if (name == "main") {
-		error(d->proc_lit, "The link name 'main' is reserved for internal use");
-	} else {
+	}
+	// } else if (name == "main" && false) { // Yeah!
+	// 	error(d->proc_lit, "The link name 'main' is reserved for internal use");
+	// }
+	else {
 		string_map_set(fp, key, e);
 	}
 
@@ -1629,10 +1631,10 @@ gb_internal void check_proc_decl(CheckerContext *ctx, Entity *e, DeclInfo *d) {
 				      "Non unique linking name for procedure '%.*s'\n"
 				      "\tother at %s",
 				      LIT(name), token_pos_to_string(pos));
-			} else if (name == "main") {
-				if (d->entity.load()->pkg->kind != Package_Runtime) {
-					error(d->proc_lit, "The link name 'main' is reserved for internal use");
-				}
+			// } else if (name == "main") {
+			// 	if (d->entity.load()->pkg->kind != Package_Runtime || false) { // Yeah!
+			// 		error(d->proc_lit, "The link name 'main' is reserved for internal use");
+			// 	}
 			} else {
 				string_map_set(fp, key, e);
 			}
@@ -1682,7 +1684,7 @@ gb_internal void check_global_variable_decl(CheckerContext *ctx, Entity *e, Ast 
 	}
 	ac.link_name = handle_link_name(ctx, e->token, ac.link_name, ac.link_prefix, ac.link_suffix);
 
-	if (is_arch_wasm() && e->Variable.thread_local_model.len != 0) {
+	if ((is_arch_wasm() || build_context.metrics.arch == TargetArch_avr) && e->Variable.thread_local_model.len != 0) {
 		e->Variable.thread_local_model.len = 0;
 		// NOTE(bill): ignore this message for the time being
 		// error(e->token, "@(thread_local) is not supported for this target platform");

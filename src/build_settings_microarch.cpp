@@ -21,6 +21,8 @@ gb_global String target_microarch_list[TargetArch_COUNT] = {
 	str_lit("bleeding-edge,generic,lime1,mvp"),
 	// TargetArch_riscv64:
 	str_lit("andes-45-series,andes-a25,andes-a45,andes-ax25,andes-ax45,andes-ax45mpv,andes-n45,andes-nx45,generic,generic-ooo,generic-rv32,generic-rv64,mips-p8700,rocket,rocket-rv32,rocket-rv64,rp2350-hazard3,sifive-7-series,sifive-e20,sifive-e21,sifive-e24,sifive-e31,sifive-e34,sifive-e76,sifive-p450,sifive-p470,sifive-p550,sifive-p670,sifive-p870,sifive-s21,sifive-s51,sifive-s54,sifive-s76,sifive-u54,sifive-u74,sifive-x280,sifive-x390,spacemit-x60,syntacore-scr1-base,syntacore-scr1-max,syntacore-scr3-rv32,syntacore-scr3-rv64,syntacore-scr4-rv32,syntacore-scr4-rv64,syntacore-scr5-rv32,syntacore-scr5-rv64,syntacore-scr7,tt-ascalon-d8,veyron-v1,xiangshan-kunminghu,xiangshan-nanhu"),
+	// TargetArch_avr
+	str_lit("avr5,atmega328p"), //TODO: Add all supported MCUs
 };
 
 // Generated with the featuregen script in `misc/featuregen`
@@ -41,6 +43,8 @@ gb_global String target_features_list[TargetArch_COUNT] = {
 	str_lit("atomics,bulk-memory,bulk-memory-opt,call-indirect-overlong,exception-handling,extended-const,fp16,multimemory,multivalue,mutable-globals,nontrapping-fptoint,reference-types,relaxed-simd,sign-ext,simd128,tail-call,wide-arithmetic"),
 	// TargetArch_riscv64:
 	str_lit("32bit,64bit,a,andes45,auipc-addi-fusion,b,c,conditional-cmv-fusion,d,disable-latency-sched-heuristic,dlen-factor-2,e,exact-asm,experimental,experimental-p,experimental-rvm23u32,experimental-smctr,experimental-ssctr,experimental-svukte,experimental-xqccmp,experimental-xqcia,experimental-xqciac,experimental-xqcibi,experimental-xqcibm,experimental-xqcicli,experimental-xqcicm,experimental-xqcics,experimental-xqcicsr,experimental-xqciint,experimental-xqciio,experimental-xqcilb,experimental-xqcili,experimental-xqcilia,experimental-xqcilo,experimental-xqcilsm,experimental-xqcisim,experimental-xqcisls,experimental-xqcisync,experimental-xrivosvisni,experimental-xrivosvizip,experimental-xsfmclic,experimental-xsfsclic,experimental-zalasr,experimental-zicfilp,experimental-zicfiss,experimental-zvbc32e,experimental-zvkgs,experimental-zvqdotq,f,forced-atomics,h,i,ld-add-fusion,log-vrgather,lui-addi-fusion,m,mips-p8700,no-default-unroll,no-sink-splat-operands,no-trailing-seq-cst-fence,optimized-nf2-segment-load-store,optimized-nf3-segment-load-store,optimized-nf4-segment-load-store,optimized-nf5-segment-load-store,optimized-nf6-segment-load-store,optimized-nf7-segment-load-store,optimized-nf8-segment-load-store,optimized-zero-stride-load,predictable-select-expensive,prefer-vsetvli-over-read-vlenb,prefer-w-inst,q,relax,reserve-x1,reserve-x10,reserve-x11,reserve-x12,reserve-x13,reserve-x14,reserve-x15,reserve-x16,reserve-x17,reserve-x18,reserve-x19,reserve-x2,reserve-x20,reserve-x21,reserve-x22,reserve-x23,reserve-x24,reserve-x25,reserve-x26,reserve-x27,reserve-x28,reserve-x29,reserve-x3,reserve-x30,reserve-x31,reserve-x4,reserve-x5,reserve-x6,reserve-x7,reserve-x8,reserve-x9,rva20s64,rva20u64,rva22s64,rva22u64,rva23s64,rva23u64,rvb23s64,rvb23u64,rvi20u32,rvi20u64,save-restore,sdext,sdtrig,sha,shcounterenw,shgatpa,shifted-zextw-fusion,shlcofideleg,short-forward-branch-opt,shtvala,shvsatpa,shvstvala,shvstvecd,sifive7,smaia,smcdeleg,smcntrpmf,smcsrind,smdbltrp,smepmp,smmpm,smnpm,smrnmi,smstateen,ssaia,ssccfg,ssccptr,sscofpmf,sscounterenw,sscsrind,ssdbltrp,ssnpm,sspm,ssqosid,ssstateen,ssstrict,sstc,sstvala,sstvecd,ssu64xl,supm,svade,svadu,svbare,svinval,svnapot,svpbmt,svvptc,tagged-globals,unaligned-scalar-mem,unaligned-vector-mem,use-postra-scheduler,v,ventana-veyron,vl-dependent-latency,vxrm-pipeline-flush,xandesbfhcvt,xandesperf,xandesvbfhcvt,xandesvdot,xandesvpackfph,xandesvsintload,xcvalu,xcvbi,xcvbitmanip,xcvelw,xcvmac,xcvmem,xcvsimd,xmipscbop,xmipscmov,xmipslsp,xsfcease,xsfmm128t,xsfmm16t,xsfmm32a16f,xsfmm32a32f,xsfmm32a8f,xsfmm32a8i,xsfmm32t,xsfmm64a64f,xsfmm64t,xsfmmbase,xsfvcp,xsfvfnrclipxfqf,xsfvfwmaccqqq,xsfvqmaccdod,xsfvqmaccqoq,xsifivecdiscarddlone,xsifivecflushdlone,xtheadba,xtheadbb,xtheadbs,xtheadcmo,xtheadcondmov,xtheadfmemidx,xtheadmac,xtheadmemidx,xtheadmempair,xtheadsync,xtheadvdot,xventanacondops,xwchc,za128rs,za64rs,zaamo,zabha,zacas,zalrsc,zama16b,zawrs,zba,zbb,zbc,zbkb,zbkc,zbkx,zbs,zca,zcb,zcd,zce,zcf,zclsd,zcmop,zcmp,zcmt,zdinx,zexth-fusion,zextw-fusion,zfa,zfbfmin,zfh,zfhmin,zfinx,zhinx,zhinxmin,zic64b,zicbom,zicbop,zicboz,ziccamoa,ziccamoc,ziccif,zicclsm,ziccrse,zicntr,zicond,zicsr,zifencei,zihintntl,zihintpause,zihpm,zilsd,zimop,zk,zkn,zknd,zkne,zknh,zkr,zks,zksed,zksh,zkt,zmmul,ztso,zvbb,zvbc,zve32f,zve32x,zve64d,zve64f,zve64x,zvfbfmin,zvfbfwma,zvfh,zvfhmin,zvkb,zvkg,zvkn,zvknc,zvkned,zvkng,zvknha,zvknhb,zvks,zvksc,zvksed,zvksg,zvksh,zvkt,zvl1024b,zvl128b,zvl16384b,zvl2048b,zvl256b,zvl32768b,zvl32b,zvl4096b,zvl512b,zvl64b,zvl65536b,zvl8192b"),
+	// TargetArch_avr:
+	str_lit("addsubiw,avr0,avr1,avr2,avr25,avr3,avr31,avr35,avr4,avr5,avr51,avr6,avrtiny,break,des,eijmpcall,elpm,elpmx,ijmpcall,jmpcall,lpm,lpmx,mega,memmappedregs,movw,mul,rmw,smallstack,spm,spmx,special,xmega,xmega3"),
 };
 
 // Generated with the featuregen script in `misc/featuregen`
@@ -61,6 +65,8 @@ gb_global int target_microarch_counts[TargetArch_COUNT] = {
 	4,
 	// TargetArch_riscv64:
 	51,
+	// TargetArch_avr:
+	2,
 };
 
 // Generated with the featuregen script in `misc/featuregen`
@@ -575,6 +581,8 @@ gb_global MicroarchFeatureList microarch_features_list[] = {
 	{ str_lit("veyron-v1"), str_lit("64bit,a,auipc-addi-fusion,c,d,f,i,ld-add-fusion,lui-addi-fusion,m,shifted-zextw-fusion,ventana-veyron,xventanacondops,zaamo,zalrsc,zba,zbb,zbc,zbs,zca,zexth-fusion,zextw-fusion,zicbom,zicbop,zicboz,zicntr,zicsr,zifencei,zihintpause,zihpm,zmmul") },
 	{ str_lit("xiangshan-kunminghu"), str_lit("64bit,a,b,c,d,f,h,i,m,no-default-unroll,sha,shcounterenw,shgatpa,shifted-zextw-fusion,shtvala,shvsatpa,shvstvala,shvstvecd,smaia,smcsrind,smdbltrp,smmpm,smnpm,smrnmi,smstateen,ssaia,ssccptr,sscofpmf,sscounterenw,sscsrind,ssdbltrp,ssnpm,sspm,ssstateen,ssstrict,sstc,sstvala,sstvecd,ssu64xl,supm,svade,svbare,svinval,svnapot,svpbmt,v,za64rs,zaamo,zacas,zalrsc,zawrs,zba,zbb,zbc,zbkb,zbkc,zbkx,zbs,zca,zcb,zcmop,zexth-fusion,zextw-fusion,zfa,zfh,zfhmin,zic64b,zicbom,zicbop,zicboz,ziccamoa,ziccif,zicclsm,ziccrse,zicntr,zicond,zicsr,zifencei,zihintntl,zihintpause,zihpm,zimop,zkn,zknd,zkne,zknh,zks,zksed,zksh,zkt,zmmul,zvbb,zve32f,zve32x,zve64d,zve64f,zve64x,zvfh,zvfhmin,zvkb,zvkt,zvl128b,zvl32b,zvl64b") },
 	{ str_lit("xiangshan-nanhu"), str_lit("64bit,a,c,d,f,i,m,no-default-unroll,shifted-zextw-fusion,svinval,zaamo,zalrsc,zba,zbb,zbc,zbkb,zbkc,zbkx,zbs,zca,zexth-fusion,zextw-fusion,zicbom,zicboz,zicsr,zifencei,zkn,zknd,zkne,zknh,zksed,zksh,zmmul") },
+	// TargetArch_avr:
+	{ str_lit("atmega328p"), str_lit("atmega328p") },  // AVR generic target
 };
 #elif LLVM_VERSION_MAJOR == 20
 // Generated with the featuregen script in `misc/featuregen`

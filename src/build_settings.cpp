@@ -59,6 +59,7 @@ enum TargetArchKind : u16 {
 	TargetArch_wasm32,
 	TargetArch_wasm64p32,
 	TargetArch_riscv64,
+	TargetArch_avr,
 
 	TargetArch_COUNT,
 };
@@ -72,6 +73,7 @@ gb_global String target_arch_names[TargetArch_COUNT] = {
 	str_lit("wasm32"),
 	str_lit("wasm64p32"),
 	str_lit("riscv64"),
+	str_lit("avr"),
 };
 
 enum TargetEndianKind : u8 {
@@ -859,6 +861,13 @@ gb_global TargetMetrics target_freestanding_riscv64 = {
 	str_lit("riscv64-unknown-gnu"),
 };
 
+gb_global TargetMetrics target_freestanding_avr = {
+	TargetOs_freestanding,
+	TargetArch_avr,
+	2, 2, 2, 2,
+	str_lit("avr-unknown-unknown"),
+};
+
 
 struct NamedTargetMetrics {
 	String name;
@@ -906,6 +915,8 @@ gb_global NamedTargetMetrics named_targets[] = {
 	{ str_lit("freestanding_arm32"), &target_freestanding_arm32 },
 
 	{ str_lit("freestanding_riscv64"), &target_freestanding_riscv64 },
+
+	{ str_lit("freestanding_avr"), &target_freestanding_avr },
 };
 
 gb_global NamedTargetMetrics *selected_target_metrics;

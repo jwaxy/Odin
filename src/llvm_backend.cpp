@@ -90,6 +90,10 @@ gb_internal String get_default_features() {
 		}
 	}
 
+	if (bc->metrics.arch == TargetArch_avr) {
+		return {};
+	}
+
 	for (int i = off; i < off+target_microarch_counts[bc->metrics.arch]; i += 1) {
 		if (microarch_features_list[i].microarch == microarch) {
 			return microarch_features_list[i].features;
@@ -3030,6 +3034,14 @@ gb_internal bool lb_generate_code(lbGenerator *gen) {
 		LLVMInitializeARMAsmPrinter();
 		LLVMInitializeARMAsmParser();
 		LLVMInitializeARMDisassembler();
+		break;
+	case TargetArch_avr:
+		LLVMInitializeAVRTargetInfo();
+		LLVMInitializeAVRTarget();
+		LLVMInitializeAVRTargetMC();
+		LLVMInitializeAVRAsmPrinter();
+		LLVMInitializeAVRAsmParser();
+		LLVMInitializeAVRDisassembler();
 		break;
 	default:
 		GB_PANIC("Unimplemented LLVM target initialization");

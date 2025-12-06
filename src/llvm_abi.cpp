@@ -1881,6 +1881,69 @@ namespace lbAbiRiscv64 {
 	}
 }
 
+namespace lbAbiAvr {
+	gb_internal lbArgType non_struct(LLVMContextRef c, LLVMTypeRef type) {
+		LLVMAttributeRef attr = nullptr;
+		LLVMTypeRef i1 = LLVMInt1TypeInContext(c);
+		if (type == i1) {
+			attr = lb_create_enum_attribute(c, "zeroext");
+		}
+		return lb_arg_type_direct(type, nullptr, nullptr, attr);
+	}
+
+	gb_internal Array<lbArgType> compute_arg_types(LLVMContextRef c, LLVMTypeRef *arg_types, unsigned arg_count) {
+		auto args = array_make<lbArgType>(lb_function_type_args_allocator(), arg_count);
+
+		for (unsigned i = 0; i < arg_count; i++) {
+			LLVMTypeRef t = arg_types[i];
+			LLVMTypeKind kind = LLVMGetTypeKind(t);
+			i64 sz = lb_sizeof(t);
+
+			// AVR passes aggregates and anything > 2 bytes by pointer
+			if (kind == LLVMStructTypeKind || kind == LLVMArrayTypeKind) {
+				if (sz == 0) {
+					args[i] = lb_arg_type_ignore(t);
+				} else {
+					args[i] = lb_arg_type_indirect(t, nullptr);
+				}
+			} else {
+				args[i] = non_struct(c, t);
+			}
+		}
+		return args;
+	}
+
+	gb_internal lbArgType compute_return_type(LLVMContextRef c, LLVMTypeRef return_type, bool return_is_defined) {
+		if (! return_is_defined) {
+			return lb_arg_type_direct(LLVMVoidTypeInContext(c));
+		}
+
+		LLVMTypeKind kind = LLVMGetTypeKind(return_type);
+		i64 sz = lb_sizeof(return_type);
+
+		// AVR returns structs/arrays via pointer (sret)
+		if (kind == LLVMStructTypeKind || kind == LLVMArrayTypeKind) {
+			if (sz == 0) {
+				return lb_arg_type_direct(LLVMVoidTypeInContext(c));
+			}
+			LLVMAttributeRef attr = lb_create_enum_attribute_with_type(c, "sret", return_type);
+			return lb_arg_type_indirect(return_type, attr);
+		}
+
+		return non_struct(c, return_type);
+	}
+
+	gb_internal LB_ABI_INFO(abi_info) {
+		LLVMContextRef c = m->ctx;
+		lbFunctionType *ft = gb_alloc_item(permanent_allocator(), lbFunctionType);
+		ft->ctx = c;
+		ft->args = compute_arg_types(c, arg_types, arg_count);
+		ft->ret = compute_return_type(c, return_type, return_is_defined);
+		ft->calling_convention = calling_convention;
+		return ft;
+	}
+}
+
 
 gb_internal LB_ABI_INFO(lb_get_abi_info_internal) {
 	LLVMContextRef c = m->ctx;
@@ -1934,6 +1997,8 @@ gb_internal LB_ABI_INFO(lb_get_abi_info_internal) {
 		return lbAbiWasm::abi_info(m, arg_types, arg_count, return_type, return_is_defined, return_is_tuple, calling_convention, original_type);
 	case TargetArch_riscv64:
 		return lbAbiRiscv64::abi_info(m, arg_types, arg_count, return_type, return_is_defined, return_is_tuple, calling_convention, original_type);
+	case TargetArch_avr:
+		return lbAbiAvr::abi_info(m, arg_types, arg_count, return_type, return_is_defined, return_is_tuple, calling_convention, original_type);
 	}
 
 	GB_PANIC("Unsupported ABI");

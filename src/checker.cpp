@@ -1185,6 +1185,7 @@ gb_internal void init_universal(void) {
 			{"wasm32",    TargetArch_wasm32},
 			{"wasm64p32", TargetArch_wasm64p32},
 			{"riscv64",   TargetArch_riscv64},
+			{"avr",   TargetArch_avr},
 		};
 
 		auto fields = add_global_enum_type(str_lit("Odin_Arch_Type"), values, gb_count_of(values));

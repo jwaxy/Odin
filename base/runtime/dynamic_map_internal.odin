@@ -262,11 +262,18 @@ map_seed_from_map_data :: #force_inline proc "contextless" (data: uintptr) -> ui
 		mix = (mix ~ (mix >> 30)) * 0xbf58476d1ce4e5b9
 		mix = (mix ~ (mix >> 27)) * 0x94d049bb133111eb
 		return mix ~ (mix >> 31)
-	} else {
+	} else when size_of(uintptr) == size_of(u32) {
 		mix := data + 0x9e3779b9
 		mix = (mix ~ (mix >> 16)) * 0x21f0aaad
 		mix = (mix ~ (mix >> 15)) * 0x735a2d97
 		return mix ~ (mix >> 15)
+	} else  {
+	// 16-bit splitmix variant for AVR and other 16-bit architectures
+		// !!! This isn't tested, don't trust this
+		mix := data + 0x9e37  // Scaled down constant
+		mix = (mix ~ (mix >> 8)) * 0xb9
+		mix = (mix ~ (mix >> 8)) * 0x97
+		return mix ~ (mix >> 8)
 	}
 }
 

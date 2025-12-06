@@ -2622,6 +2622,10 @@ gb_internal void lb_add_attribute_to_proc_with_string(lbModule *m, LLVMValueRef 
 
 
 gb_internal bool lb_apply_thread_local_model(LLVMValueRef value, String model) {
+	if (build_context.metrics.arch == TargetArch_avr) {
+		return false;
+	}
+
 	if (model != "") {
 		LLVMSetThreadLocal(value, true);
 
